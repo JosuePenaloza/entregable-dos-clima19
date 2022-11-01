@@ -10,6 +10,7 @@
   border-radius: 3%;
   width: 100vh;
   left: 30vh;
+  color: black;
  
  
 } 
@@ -18,8 +19,8 @@
   display: grid;
   height: 47vh;
   grid-auto-flow: column;
-  outline-style: groove;
+
   border-radius: inherit;
-  border: solid;
+
 }
 
