@@ -19,7 +19,7 @@
   display: grid;
   height: 47vh;
   grid-auto-flow: column;
-
+  
   border-radius: inherit;
 
 }
