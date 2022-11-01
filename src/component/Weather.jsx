@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import useBoolean from '../hook/useBloolean';
 import Icons from './Icons';
+import Login from './Login';
 
 const Weather = () => {
 
@@ -11,6 +13,7 @@ const Weather = () => {
 
     //almacenar datos de api
     const [weather, setweather] = useState({})
+    const [login, setLogin] = useState(true)
 
 
     /// obtener datos de API
@@ -29,13 +32,19 @@ const Weather = () => {
         const apiKey = 'a12da3cd2c5def3317e01718fc1cd201'
         
         axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
-        .then(res =>  setweather(res.data))
+        .then(res => {
+            setLogin(false)
+            setweather(res.data)
+        } )
         
         }
 
         function error(err) {
             console.warn(`ERROR(${err.code}): ${err.message}`);
-            alert('User denied Geolocation')
+            
+            Swal.fire(
+                `ERROR(${err.code}):`, `${err.message}`, 'warning'
+            )
             
           }
         const options = {
@@ -84,27 +93,38 @@ const Weather = () => {
 
     return (
         <div className='card' >
-            <div>
-                <h2>{weather?.name} {weather?.sys?.country}</h2>
-                <h2>{TempRound}°</h2>
-            </div>           
-            <div>
-                <button onClick={()=> handleTemp()}>{boolean ? 'c ° / F °' : 'C ° / f °'}</button>
-            </div>          
-            <div>
-                <Icons 
-                    icon={weather.weather?.[0]?.icon} 
-                    description={weather.weather?.[0]?.description}
-                />
-            </div>
-            <div>
-                <ul>
-                    <li>speed: {Math.round(weather.wind?.speed)}</li>
-                    <li>gust: {Math.round(weather.wind?.gust)}</li>
-                    <li>deg: {weather.wind?.deg}</li>
-                    <li>humidity: {weather.main?.humidity}</li>
-                </ul>
-            </div>
+
+            {
+                login ? (
+                    <Login />                   
+                ) : (
+                    <div>
+                        <div>
+                            <h2>{weather?.name} {weather?.sys?.country}</h2>
+                            <h2>{TempRound}°</h2>
+                        </div>           
+                        <div>
+                            <button onClick={()=> handleTemp()}>{boolean ? 'c ° / F °' : 'C ° / f °'}</button>
+                        </div>          
+                        <div>
+                            <Icons 
+                                icon={weather.weather?.[0]?.icon} 
+                                description={weather.weather?.[0]?.description}
+                            />
+                        </div>
+                        <div>
+                            <ul>
+                                <li>speed: {Math.round(weather.wind?.speed)}</li>
+                                <li>gust: {Math.round(weather.wind?.gust)}</li>
+                                <li>deg: {weather.wind?.deg}</li>
+                                <li>humidity: {weather.main?.humidity}</li>
+                            </ul>
+                        </div>
+                    </div>
+                )
+            }
+
+            
         </div>
     );
 };
