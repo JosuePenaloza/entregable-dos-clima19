@@ -1,0 +1,25 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.App {
+  border-radius: 3%;
+  width: 100vh;
+  left: 30vh;
+ 
+ 
+} 
+
+.card {
+  display: grid;
+  height: 47vh;
+  grid-auto-flow: column;
+  outline-style: groove;
+  border-radius: inherit;
+  border: solid;
+}
+
